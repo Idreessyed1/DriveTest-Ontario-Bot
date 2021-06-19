@@ -1,0 +1,8 @@
+#VirtualEnviroment
+/VirtualEnviroment
+
+#Pycharm Settings
+/.idea
+
+#Chrome driver
+/Resources/chromedriver.exe
