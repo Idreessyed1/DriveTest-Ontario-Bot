@@ -11,6 +11,7 @@ options.headless = True
 
 PATH = "C:\Python_Projects\DriveTestBot\Resources\chromedriver.exe"
 URL = "https://drivetest.ca/book-a-road-test/booking.html#/verify-driver"
+location = "Windsor"
 
 
 driver = webdriver.Chrome(PATH)
@@ -36,8 +37,45 @@ try:
 except:
     print("Failed")
 
-#modal = driver.find_element_by_css_selector("div.form-group lic-submit")
-#modal = driver.find_element_by_xpath('//button[@class="btn btn-primary"][@title="reschedule"]')
+try:
+    reschedule_pop_up = WebDriverWait(driver, 50).until(
+        EC.presence_of_element_located((By.XPATH, '//button[@title="reschedule"]'))
+    )
+    reschedule_pop_up.click()
+except:
+    print("Failed")
+
+#Reschedule pop-up
+# reschedule_pop_up = driver.find_element_by_xpath('//button[@title="reschedule"]')
+# reschedule_pop_up.click()
+
+#Location selection
+time.sleep(3)
+
+#Test this first
+# location_div = driver.find_element_by_class_name("dtc_listings")
+# print(location_div.text)
+
+try:
+    location_selection = WebDriverWait(driver, 50).until(
+        EC.presence_of_element_located((By.XPATH, '//a[@title="' + location + '"]'))
+    )
+    location_selection.click()
+except:
+    print("Failed")
+
+
+try:
+    location_submission = WebDriverWait(driver, 50).until(
+        EC.presence_of_element_located(
+            (By.XPATH, '//div[@class="form-group loc-submit"]/'
+                       'div[@class="directive_wrapper ng-isolate-scope"]/'
+                       'button[@type="submit"]'))
+    )
+    location_submission.click()
+except:
+    print("Failed")
+
 
 
 
