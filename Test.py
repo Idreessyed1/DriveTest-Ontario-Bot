@@ -18,7 +18,7 @@ options.add_argument("--incognito")
 
 driver = webdriver.Chrome(PATH, options=options)
 driver.get(URL)
-#print(driver.title)
+# print(driver.title)
 
 # Logging in
 licence_number = driver.find_element_by_id("licenceNumber")
@@ -28,64 +28,59 @@ licence_expiry_date.send_keys("2022/02/02")
 submit = driver.find_element_by_id("regSubmitBtn")
 submit.click()
 
-#time.sleep(10)
+# time.sleep(10)]
 
-try:
-    reschedule = WebDriverWait(driver, 50).until(
-        EC.presence_of_element_located((By.XPATH, '//button[contains(text(), "Reschedule Test")]'))
-    )
-    reschedule.click()
-except:
-    print("Failed")
+wait = WebDriverWait(driver, 50)
+element = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[contains(text(), "Reschedule Test")]')))
+element.click()
 
-try:
-    reschedule_pop_up = WebDriverWait(driver, 50).until(
-        EC.presence_of_element_located((By.XPATH, '//button[@title="reschedule"]'))
-    )
-    reschedule_pop_up.click()
-except:
-    print("Failed")
+reschedule_pop_up = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[@title="reschedule"]')))
+reschedule_pop_up.click()
+# try:
+#     reschedule_pop_up = WebDriverWait(driver, 50).until(
+#         EC.presence_of_element_located((By.XPATH, '//button[@title="reschedule"]'))
+#     )
+#     reschedule_pop_up.click()
+# except:
+#     print("Failed")
 
-#Reschedule pop-up
+# Reschedule pop-up
 # reschedule_pop_up = driver.find_element_by_xpath('//button[@title="reschedule"]')
 # reschedule_pop_up.click()
 
-#Location selection
+# Location selection
 
-#Test this first
+# Test this first
 # location_div = driver.find_element_by_class_name("dtc_listings")
 # print(location_div.text)
 
-try:
-    location_selection = WebDriverWait(driver, 50).until(
-        EC.presence_of_element_located((By.XPATH, '//a[@title="' + location + '"]'))
-    )
-    location_selection.click()
-except:
-    print("Failed")
+location_selection = wait.until(EC.element_to_be_clickable((By.XPATH, '//a[@title="' + location + '"]')))
+location_selection.click()
 
+# try:
+#     location_selection = WebDriverWait(driver, 50).until(
+#         EC.presence_of_element_located((By.XPATH, '//a[@title="' + location + '"]'))
+#     )
+#     location_selection.click()
+# except:
+#     print("Failed")
 
-try:
-    location_submission = WebDriverWait(driver, 50).until(
-        EC.presence_of_element_located(
-            (By.XPATH, '//div[@class="form-group loc-submit"]/'
-                       'div[@class="directive_wrapper ng-isolate-scope"]/'
-                       'button[@type="submit"]'))
-    )
-    location_submission.click()
-except:
-    print("Failed")
+location_submission = wait.until(EC.element_to_be_clickable(
+    (By.XPATH, '//div[@class="form-group loc-submit"]/'
+               'div[@class="directive_wrapper ng-isolate-scope"]/'
+               'button[@type="submit"]')))
+location_submission.click()
 
-time.sleep(3)
-
-a = ""
-dates = []
-for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
-    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
-        print(date.text)
-
-next_month = driver.find_element_by_xpath('//a[@title="next month"]')
-next_month.click()
+# try:
+#     location_submission = WebDriverWait(driver, 50).until(
+#         EC.presence_of_element_located(
+#             (By.XPATH, '//div[@class="form-group loc-submit"]/'
+#                        'div[@class="directive_wrapper ng-isolate-scope"]/'
+#                        'button[@type="submit"]'))
+#     )
+#     location_submission.click()
+# except:
+#     print("Failed")
 
 time.sleep(2)
 
@@ -96,7 +91,7 @@ for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
 next_month = driver.find_element_by_xpath('//a[@title="next month"]')
 next_month.click()
 
-time.sleep(2)
+time.sleep(1)
 
 for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
     if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
@@ -105,7 +100,7 @@ for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
 next_month = driver.find_element_by_xpath('//a[@title="next month"]')
 next_month.click()
 
-time.sleep(2)
+time.sleep(1)
 
 for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
     if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
@@ -114,7 +109,7 @@ for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
 next_month = driver.find_element_by_xpath('//a[@title="next month"]')
 next_month.click()
 
-time.sleep(2)
+time.sleep(1)
 
 for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
     if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
@@ -123,7 +118,16 @@ for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
 next_month = driver.find_element_by_xpath('//a[@title="next month"]')
 next_month.click()
 
-time.sleep(2)
+time.sleep(1)
+
+for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+        print(date.text)
+
+next_month = driver.find_element_by_xpath('//a[@title="next month"]')
+next_month.click()
+
+time.sleep(1)
 
 for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
     if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
@@ -138,5 +142,3 @@ for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
 #         print(date.text)
 # except:
 #     print("Failed")
-
-

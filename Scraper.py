@@ -24,6 +24,7 @@ class Scraper:
         # Running driver
         self.driver = webdriver.Chrome(self.PATH, options=options)
         self.driver.get(self.URL)
+        self.wait = WebDriverWait(self.driver, 50)
 
     def login(self):
         licence_number = self.driver.find_element_by_id("licenceNumber")
@@ -34,24 +35,32 @@ class Scraper:
         submit.click()
 
     def reschedule(self):
-        try:
-            reschedule = WebDriverWait(self.driver, 50).until(
-                EC.presence_of_element_located((By.XPATH, '//button[contains(text(), "Reschedule Test")]'))
-            )
-            reschedule.click()
-        except:
-            print("Failed")
-
-        try:
-            reschedule_pop_up = WebDriverWait(self.driver, 50).until(
-                EC.presence_of_element_located((By.XPATH, '//button[@title="reschedule"]'))
-            )
-            reschedule_pop_up.click()
-        except:
-            print("Failed")
+        reschedule = self.wait.until(EC.element_to_be_clickable(
+            (By.XPATH, '//button[contains(text(), "Reschedule Test")]')))
+        reschedule.click()
+        reschedule_confirmation = self.wait.until(EC.element_to_be_clickable(
+            (By.XPATH, '//button[@title="reschedule"]')))
+        reschedule_confirmation.click()
 
     def select_location(self):
-        pass
+        location_selection = self.wait.until(EC.element_to_be_clickable(
+            (By.XPATH, '//a[@title="' + self.location + '"]')))
+        location_selection.click()
+        location_submission = self.wait.until(EC.element_to_be_clickable(
+            (By.XPATH, '//div[@class="form-group loc-submit"]/'
+                       'div[@class="directive_wrapper ng-isolate-scope"]/'
+                       'button[@type="submit"]')))
+        location_submission.click()
 
-    def schedule(self):
-        pass
+    def open_dates(self):
+        open_dates = []
+        time.sleep(1)
+        for date in self.driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+            if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+                open_dates.append(date.text)
+                print(date.text)
+
+    def next_month(self):
+        next_month_btn = self.driver.find_element_by_xpath('//a[@title="next month"]')
+        next_month_btn.click()
+
