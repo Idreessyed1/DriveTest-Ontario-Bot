@@ -6,16 +6,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-options = Options()
-options.headless = True
+# options = Options()
+# options.headless = True
 
 PATH = "C:\Python_Projects\DriveTestBot\Resources\chromedriver.exe"
 URL = "https://drivetest.ca/book-a-road-test/booking.html#/verify-driver"
 location = "Windsor"
 
+options = webdriver.ChromeOptions()
+options.add_argument("--incognito")
 
-driver = webdriver.Chrome(PATH)
-
+driver = webdriver.Chrome(PATH, options=options)
 driver.get(URL)
 #print(driver.title)
 
@@ -50,7 +51,6 @@ except:
 # reschedule_pop_up.click()
 
 #Location selection
-time.sleep(3)
 
 #Test this first
 # location_div = driver.find_element_by_class_name("dtc_listings")
@@ -76,20 +76,67 @@ try:
 except:
     print("Failed")
 
+time.sleep(3)
 
+a = ""
+dates = []
+for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+        print(date.text)
 
+next_month = driver.find_element_by_xpath('//a[@title="next month"]')
+next_month.click()
 
+time.sleep(2)
 
+for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+        print(date.text)
 
+next_month = driver.find_element_by_xpath('//a[@title="next month"]')
+next_month.click()
 
-# Rescheduling
+time.sleep(2)
+
+for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+        print(date.text)
+
+next_month = driver.find_element_by_xpath('//a[@title="next month"]')
+next_month.click()
+
+time.sleep(2)
+
+for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+        print(date.text)
+
+next_month = driver.find_element_by_xpath('//a[@title="next month"]')
+next_month.click()
+
+time.sleep(2)
+
+for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+        print(date.text)
+
+next_month = driver.find_element_by_xpath('//a[@title="next month"]')
+next_month.click()
+
+time.sleep(2)
+
+for date in driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
+    if date.find_element_by_xpath('div/div/div').get_attribute('class') == "date-cell-contents":
+        print(date.text)
+
 # try:
-#     element = WebDriverWait(driver, 10).until(
-#         EC.presence_of_element_located((By.ID, "myDynamicElement"))
+#     dates = WebDriverWait(driver, 50).until(
+#         EC.presence_of_all_elements_located(
+#             (By.XPATH, '//td[@class="ng-scope"]'))
 #     )
-# finally:
-#     driver.quit()
+#     for date in dates:
+#         print(date.text)
+# except:
+#     print("Failed")
 
-#time.sleep(3)
 
-#driver.quit()
