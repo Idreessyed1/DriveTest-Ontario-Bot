@@ -2,13 +2,38 @@
 class Menu:
 
     def __init__(self):
-        pass
+        # scrapper = Scraper()
+        print("Welcome to DriveTest Ontario booking bot.\n"
+              "This bot will automatically check for openings to book or reschedule a test. ")
+        PATH = input("To begin enter the full path to the chromedriver: ")
+        self.booking_selection()
 
-    def enter_info(self):
+    def booking_selection(self):
+        while True:
+            print("Would you like to:\n"
+                  "[1]: Book a test\n"
+                  "[2]: Reschedule a test")
+            option = int(input())
+            if option == 1:
+                self.booking_info()
+                break
+            elif option == 2:
+                self.reschedule_info()
+                break
+            else:
+                print("Invalid entry!")
+        print("!!!!!!!!!!!!!!!!!")
+
+    def booking_info(self):
         license_num = input("Enter your licence number: ").replace(" ", "")
         license_exp = input("Enter your licence expiration date (YYYY/MM/DD): ")
         email = input("Enter your email address to be notified when a booking opens: ")
-        print(license_num, license_exp, email)
+        email_2 = input("Re-enter your email address ")
+
+    def reschedule_info(self):
+        license_num = input("Enter your licence number: ").replace(" ", "")
+        license_exp = input("Enter your licence expiration date (YYYY/MM/DD): ")
+        print(license_num, license_exp)
 
     def verify_info(self):
         pass
@@ -23,5 +48,3 @@ class Menu:
 
 
 menu = Menu()
-menu.enter_info()
-menu.num_months()
