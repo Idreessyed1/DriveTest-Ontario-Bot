@@ -1,11 +1,13 @@
+from Scraper import Scraper
+
 
 class Menu:
 
     def __init__(self):
-        # scrapper = Scraper()
         print("Welcome to DriveTest Ontario booking bot.\n"
-              "This bot will automatically check for openings to book or reschedule a test. ")
-        PATH = input("To begin enter the full path to the chromedriver: ")
+              "This bot will automatically check for open test dates. ")
+        PATH = input("To begin enter the full path to the chrome driver: ")
+        self.scrapper = Scraper(PATH)
         self.booking_selection()
 
     def booking_selection(self):
@@ -15,25 +17,30 @@ class Menu:
                   "[2]: Reschedule a test")
             option = int(input())
             if option == 1:
-                self.booking_info()
+                self.book()
                 break
             elif option == 2:
-                self.reschedule_info()
+                self.reschedule()
                 break
             else:
                 print("Invalid entry!")
-        print("!!!!!!!!!!!!!!!!!")
 
-    def booking_info(self):
+    def book(self):
+        URL = "https://drivetest.ca/book-a-road-test/booking.html#/validate-driver-email"
         license_num = input("Enter your licence number: ").replace(" ", "")
         license_exp = input("Enter your licence expiration date (YYYY/MM/DD): ")
         email = input("Enter your email address to be notified when a booking opens: ")
         email_2 = input("Re-enter your email address ")
 
-    def reschedule_info(self):
+    def reschedule(self):
+        URL = "https://drivetest.ca/book-a-road-test/booking.html#/verify-driver"
         license_num = input("Enter your licence number: ").replace(" ", "")
         license_exp = input("Enter your licence expiration date (YYYY/MM/DD): ")
-        print(license_num, license_exp)
+        months = self.num_months()
+        self.scrapper.reschedule_login(URL, license_num, license_exp)
+        self.scrapper.reschedule()
+        self.scrapper.select_location()
+        self.scrapper.open_dates(months)
 
     def verify_info(self):
         pass
@@ -45,6 +52,7 @@ class Menu:
                 months = int(input("Enter the number of months you would like to check: "))
             except (TypeError, ValueError) as e:
                 print("Enter a number greater than 1!")
+        return months
 
 
 menu = Menu()

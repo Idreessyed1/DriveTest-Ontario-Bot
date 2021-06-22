@@ -9,28 +9,23 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class Scraper:
 
-    def __init__(self, location, license_num, license_exp):
-        self.PATH = "C:\Python_Projects\DriveTestBot\Resources\chromedriver.exe"
-        self.URL = "https://drivetest.ca/book-a-road-test/booking.html#/verify-driver"
-        self.license_num = license_num
-        self.license_exp = license_exp
-        self.location = location
-
+    def __init__(self, PATH):
+        self.PATH = PATH
+        # self.URL = "https://drivetest.ca/book-a-road-test/booking.html#/verify-driver"
         # Configuring driver
         options = webdriver.ChromeOptions()
         options.add_argument("--incognito")
         #options.headless = True
-
         # Running driver
         self.driver = webdriver.Chrome(self.PATH, options=options)
-        self.driver.get(self.URL)
         self.wait = WebDriverWait(self.driver, 50)
 
-    def login(self):
+    def reschedule_login(self, URL, license_num, license_exp):
+        self.driver.get(URL)
         licence_number = self.driver.find_element_by_id("licenceNumber")
         licence_expiry_date = self.driver.find_element_by_id("licenceExpiryDate")
-        licence_number.send_keys(self.license_num)
-        licence_expiry_date.send_keys(self.license_exp)
+        licence_number.send_keys(license_num)
+        licence_expiry_date.send_keys(license_exp)
         submit = self.driver.find_element_by_id("regSubmitBtn")
         submit.click()
 
@@ -52,7 +47,7 @@ class Scraper:
                        'button[@type="submit"]')))
         location_submission.click()
 
-    def open_dates(self):
+    def open_dates(self, months):
         open_dates = []
         time.sleep(1)
         for date in self.driver.find_elements_by_xpath('//td[@class="ng-scope"]'):
